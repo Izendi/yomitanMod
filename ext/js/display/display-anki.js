@@ -105,6 +105,8 @@ export class DisplayAnki {
         /** @type {(event: MouseEvent) => void} */
         this._onNoteSaveBind = this._onNoteSave.bind(this);
         /** @type {(event: MouseEvent) => void} */
+        this._onLogCounterBind = this._onLogCounter.bind(this);
+        /** @type {(event: MouseEvent) => void} */
         this._onViewNotesButtonClickBind = this._onViewNotesButtonClick.bind(this);
         /** @type {(event: MouseEvent) => void} */
         this._onViewNotesButtonContextMenuBind = this._onViewNotesButtonContextMenu.bind(this);
@@ -263,6 +265,9 @@ export class DisplayAnki {
         for (const node of element.querySelectorAll('.action-button[data-action=save-note]')) {
             eventListeners.addEventListener(node, 'click', this._onNoteSaveBind);
         }
+        for (const node of element.querySelectorAll('.action-button[data-action="log-counter"]')) {
+            eventListeners.addEventListener(node, 'click', this._onLogCounterBind);
+        }
         for (const node of element.querySelectorAll('.action-button[data-action=view-note]')) {
             eventListeners.addEventListener(node, 'click', this._onViewNotesButtonClickBind);
             eventListeners.addEventListener(node, 'contextmenu', this._onViewNotesButtonContextMenuBind);
@@ -286,12 +291,40 @@ export class DisplayAnki {
      * @param {MouseEvent} e
      */
     _onNoteSave(e) {
+
+        console.log(e);
+
         e.preventDefault();
         const element = /** @type {HTMLElement} */ (e.currentTarget);
         const mode = this._getValidCreateMode(element.dataset.mode);
+
+        console.log("Mode in _onNoteSave:", mode);
+
         if (mode === null) { return; }
         const index = this._display.getElementDictionaryEntryIndex(element);
         void this._saveAnkiNote(index, mode);
+    }
+
+    /**
+     * @param {MouseEvent} e
+     */
+    _onLogCounter(e) {
+
+        console.log(e);
+
+        e.preventDefault();
+        const element = /** @type {HTMLElement} */ (e.currentTarget);
+
+        const mode = this._getValidCreateMode(element.dataset.mode);
+
+        console.log("Mode in _onLogCounter:", mode);
+
+        if (mode === null) { return; }
+
+        const index = this._display.getElementDictionaryEntryIndex(element);
+
+        this._saveToJSON(index, mode);
+
     }
 
     /**
@@ -532,8 +565,11 @@ export class DisplayAnki {
             return;
         }
         const dictionaryEntry = dictionaryEntries[dictionaryEntryIndex];
+
         const details = dictionaryEntryDetails[dictionaryEntryIndex].modeMap.get(mode);
         if (typeof details === 'undefined') { return; }
+
+        //console.log(details);
 
         const {requirements} = details;
 
@@ -566,6 +602,62 @@ export class DisplayAnki {
         } else {
             this._hideErrorNotification(true);
         }
+    }
+
+    /**
+     * @param {string} word
+     */
+        addOrUpdateWord(word)
+        {
+                // Retrieve words from local storage and handle null case
+                const storedWords = localStorage.getItem('words');
+                const words = storedWords ? JSON.parse(storedWords) : {};
+
+                // Retrieve unique ID counter from local storage and handle null case
+                const storedUniqueIdCounter = localStorage.getItem('uniqueIdCounter');
+                const uniqueIdCounter = storedUniqueIdCounter ? parseInt(storedUniqueIdCounter, 10) : 1;
+
+            if (words[word]) {
+                // Word already exists, increment the counter
+                words[word].counter += 1;
+            } else {
+                // Word does not exist, assign a new unique ID and initialize counter
+                words[word] = { id: uniqueIdCounter, counter: 1 };
+
+                // Increment the unique ID counter
+                localStorage.setItem('uniqueIdCounter', (uniqueIdCounter  + 1).toString());
+            }
+
+
+        }
+
+    /**
+     * @param {number} dictionaryEntryIndex
+     * @param {import('display-anki').CreateMode} mode
+     */
+    async _saveToJSON(dictionaryEntryIndex, mode)
+    {
+
+        const dictionaryEntries = this._display.dictionaryEntries;
+        const dictionaryEntryDetails = this._dictionaryEntryDetails;
+        if (!(
+            dictionaryEntryDetails !== null &&
+            dictionaryEntryIndex >= 0 &&
+            dictionaryEntryIndex < dictionaryEntries.length &&
+            dictionaryEntryIndex < dictionaryEntryDetails.length
+        )) {
+            return;
+        }
+        const dictionaryEntry = dictionaryEntries[dictionaryEntryIndex];
+
+        const details = dictionaryEntryDetails[dictionaryEntryIndex].modeMap.get(mode);
+        if (typeof details === 'undefined') { return; }
+
+        //console.log(details);
+        console.log(dictionaryEntryIndex);
+        console.log(details.note.fields.front);
+        console.log(details.note.fields.Reading);
+
     }
 
     /**
