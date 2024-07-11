@@ -697,6 +697,7 @@ button.action-button:active {
 .icon[data-icon=add-duplicate-term-kana]  { background-image: url('/images/add-duplicate-term-kana.svg'); }
 .icon[data-icon=add-duplicate-kanji]  { background-image: url('/images/add-duplicate-term-kanji.svg'); }
 .icon[data-icon=play-audio]     { background-image: url('/images/play-audio.svg'); }
+.icon[data-icon=log-counter]     { background-image: url('/images/log-counter.svg'); }
 .icon[data-icon=source-term]    { background-image: url('/images/source-term.svg'); }
 .icon[data-icon=entry-current]  { background-image: url('/images/entry-current.svg'); }
 .action-icon {
