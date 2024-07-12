@@ -1,4 +1,4 @@
-#Izendi Changes made on this fork
+# Izendi Changes made on this fork
 
 Added a counter button for dictionary words that appear in the yomitan popup.
 
