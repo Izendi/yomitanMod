@@ -11,7 +11,7 @@ The image below shows the new blue button, with the counter icon to its right, i
 
 ![image](https://github.com/user-attachments/assets/46b2fe17-ba72-4f3c-b54b-68939998fc91)
 
-# Yomitan
+# Yomitan (Original README starts here)
 
 [![Chrome Release](<https://img.shields.io/chrome-web-store/v/likgccmbimhjbgkjambclfkhldnlhbnn?logo=Google%20Chrome&logoColor=lightblue&color=lightblue&label=chrome%20release%20(stable)>)](https://chrome.google.com/webstore/detail/yomitan/likgccmbimhjbgkjambclfkhldnlhbnn)
 [![Firefox Release](<https://img.shields.io/amo/v/yomitan?logo=Firefox&color=orange&label=firefox%20release%20(stable)>)](https://addons.mozilla.org/en-US/firefox/addon/yomitan/)
