@@ -292,13 +292,13 @@ export class DisplayAnki {
      */
     _onNoteSave(e) {
 
-        console.log(e);
+        //console.log(e);
 
         e.preventDefault();
         const element = /** @type {HTMLElement} */ (e.currentTarget);
         const mode = this._getValidCreateMode(element.dataset.mode);
 
-        console.log("Mode in _onNoteSave:", mode);
+        //console.log("Mode in _onNoteSave:", mode);
 
         if (mode === null) { return; }
         const index = this._display.getElementDictionaryEntryIndex(element);
@@ -310,14 +310,14 @@ export class DisplayAnki {
      */
     _onLogCounter(e) {
 
-        console.log(e);
+        //console.log(e);
 
         e.preventDefault();
         const element = /** @type {HTMLElement} */ (e.currentTarget);
 
         const mode = this._getValidCreateMode(element.dataset.mode);
 
-        console.log("Mode in _onLogCounter:", mode);
+        //console.log("Mode in _onLogCounter:", mode);
 
         //console.log(mode);
 
@@ -680,11 +680,6 @@ export class DisplayAnki {
 
         const details = dictionaryEntryDetails[dictionaryEntryIndex].modeMap.get(mode);
         if (typeof details === 'undefined') { return; }
-
-        //console.log(details);
-        //console.log(dictionaryEntryIndex);
-        //console.log(details.note.fields.front);
-        //console.log(details.note.fields.Reading);
 
         const word = details.note.fields.front;
         const reading = details.note.fields.Reading;

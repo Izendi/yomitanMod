@@ -1714,7 +1714,7 @@ export class Display extends EventDispatcher {
                     {
                         const parsedValue = JSON.parse(keyValue);
                         const counter = parsedValue.count;
-                        console.log(counter);
+                        //console.log(counter);
 
                         this._updateIntegerValue(String(counter));
 
