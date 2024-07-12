@@ -606,28 +606,44 @@ export class DisplayAnki {
 
     /**
      * @param {string} word
+     * @param {string} reading
      */
-        addOrUpdateWord(word)
+        addOrUpdateWord(word, reading)
         {
-                // Retrieve words from local storage and handle null case
-                const storedWords = localStorage.getItem('words');
-                const words = storedWords ? JSON.parse(storedWords) : {};
+            //console.log(`addOrUpdateWord called with word: ${word}, reading: ${reading}`);
+            // Check if word is already in chrome storage
+            const storedData = localStorage.getItem(word);
 
-                // Retrieve unique ID counter from local storage and handle null case
-                const storedUniqueIdCounter = localStorage.getItem('uniqueIdCounter');
-                const uniqueIdCounter = storedUniqueIdCounter ? parseInt(storedUniqueIdCounter, 10) : 1;
+            let record;
 
-            if (words[word]) {
-                // Word already exists, increment the counter
-                words[word].counter += 1;
-            } else {
-                // Word does not exist, assign a new unique ID and initialize counter
-                words[word] = { id: uniqueIdCounter, counter: 1 };
+                if(storedData !== null)
+                {
+                    //Key exists: (therefor incrment counter by 1)
+                    record = JSON.parse(storedData);
+                    record.counter = record.counter + 1;
 
-                // Increment the unique ID counter
-                localStorage.setItem('uniqueIdCounter', (uniqueIdCounter  + 1).toString());
-            }
+                    //chrome.storage.local.set({[word]: record});
+                }
+                else
+                {
+                    //Key does not exist:
+                    record = {
+                        jpnWord: word,
+                        jpnReading: reading,
+                        counter: 1
+                    };
 
+                    //let data = {};
+
+                    //chrome.storage.local.set({[word]: record});
+                }
+
+
+            //console.error(chrome.runtime.lastError.message);
+
+            localStorage.setItem(word, JSON.stringify(record));
+
+            //console.log('End of addOrUpdateWord function');
 
         }
 
@@ -654,9 +670,14 @@ export class DisplayAnki {
         if (typeof details === 'undefined') { return; }
 
         //console.log(details);
-        console.log(dictionaryEntryIndex);
-        console.log(details.note.fields.front);
-        console.log(details.note.fields.Reading);
+        //console.log(dictionaryEntryIndex);
+        //console.log(details.note.fields.front);
+        //console.log(details.note.fields.Reading);
+
+        const word = details.note.fields.front;
+        const reading = details.note.fields.Reading;
+
+        this.addOrUpdateWord(word, reading);
 
     }
 
