@@ -1,3 +1,16 @@
+#Izendi Changes made on this fork
+
+Added a counter button for dictionary words that appear in the yomitan popup.
+
+A common problem I have is adding uncommon words that I need need to invest time in to learn, but which I almost never need to actually use. Especially in the early language learning stages, It is far more effective to focus on words that you see a lot, as it gives you more context learning opportunities and is likely to be useful (since you are obviously encountering the word a lot).
+
+With this counter, I mark words I feel are important each time I encounter them without adding them to my Anki deck. Then when the number gets high enough, I can add it to the Anki deck if it is appearing a lot and seems important.
+
+
+The image below shows the new blue button, with the counter icon to its right, indicating how many times the blue counter button has been pushed (twice in this case).
+
+![image](https://github.com/user-attachments/assets/46b2fe17-ba72-4f3c-b54b-68939998fc91)
+
 # Yomitan
 
 [![Chrome Release](<https://img.shields.io/chrome-web-store/v/likgccmbimhjbgkjambclfkhldnlhbnn?logo=Google%20Chrome&logoColor=lightblue&color=lightblue&label=chrome%20release%20(stable)>)](https://chrome.google.com/webstore/detail/yomitan/likgccmbimhjbgkjambclfkhldnlhbnn)
