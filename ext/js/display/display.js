@@ -69,6 +69,8 @@ export class Display extends EventDispatcher {
         /** @type {HTMLElement[]} */
         this._dictionaryEntryNodes = [];
         /** @type {import('settings').OptionsContext} */
+        /** @type {?import('display-anki').DictionaryEntryDetails[]} */
+        this._dictionaryEntryDetails = null;
         this._optionsContext = {depth: 0, url: window.location.href};
         /** @type {?import('settings').ProfileOptions} */
         this._options = null;
@@ -1671,12 +1673,70 @@ export class Display extends EventDispatcher {
         );
     }
 
+
+    /**
+     * @param {string} newValue
+     */
+    _updateIntegerValue(newValue) {
+    // Get the <div> element by its ID
+    var integerValueElement = document.getElementById('integerValue');
+
+    // Update the content of the <div> element
+    if (integerValueElement !== null) {
+        integerValueElement.innerText = newValue;
+    }
+}
+
     /**
      * @param {number} index
      * @returns {?HTMLElement}
      */
     _getEntry(index) {
         const entries = this._dictionaryEntryNodes;
+
+
+            //const indexVal = this.getElementDictionaryEntryIndex(entries[0]);
+
+            const dictionaryEntries = this.dictionaryEntries;
+
+            const wordVal = dictionaryEntries[index].headwords[0].term;
+
+                if(wordVal !== null || wordVal !== undefined)
+                {
+                    //const dictionaryEntry = dictionaryEntries[index];
+
+                    //const details = dictionaryEntryDetails[index].modeMap.get('term-kanji');
+
+                    //const word = dictionaryEntry.headwords[0]//details.note.fields.front;
+
+                    const keyValue = localStorage.getItem(wordVal);
+                    if(keyValue !== null)
+                    {
+                        const parsedValue = JSON.parse(keyValue);
+                        const counter = parsedValue.count;
+                        console.log(counter);
+
+                        this._updateIntegerValue(String(counter));
+
+                        /*
+                        document.addEventListener('DOMContentLoaded', function()
+                        {
+                            function updateIntegerValue()
+                            {
+                                var integerValueElement = document.getElementById('integerValue');
+                                if (integerValueElement !== null)
+                                {
+                                    integerValueElement.innerText = counter;
+                                }
+                            }
+
+                            updateIntegerValue();
+                        });
+                        */
+
+                    }
+                }
+
         return index >= 0 && index < entries.length ? entries[index] : null;
     }
 

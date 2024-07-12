@@ -319,6 +319,8 @@ export class DisplayAnki {
 
         console.log("Mode in _onLogCounter:", mode);
 
+        //console.log(mode);
+
         if (mode === null) { return; }
 
         const index = this._display.getElementDictionaryEntryIndex(element);
@@ -620,7 +622,7 @@ export class DisplayAnki {
                 {
                     //Key exists: (therefor incrment counter by 1)
                     record = JSON.parse(storedData);
-                    record.counter = record.counter + 1;
+                    record.count = record.count + 1;
 
                     //chrome.storage.local.set({[word]: record});
                 }
@@ -628,9 +630,9 @@ export class DisplayAnki {
                 {
                     //Key does not exist:
                     record = {
-                        jpnWord: word,
-                        jpnReading: reading,
-                        counter: 1
+                        jpnWo: word,
+                        jpnRe: reading,
+                        count: 1
                     };
 
                     //let data = {};
@@ -642,6 +644,16 @@ export class DisplayAnki {
             //console.error(chrome.runtime.lastError.message);
 
             localStorage.setItem(word, JSON.stringify(record));
+
+            var integerValueElement = document.getElementById('integerValue');
+
+            // Parse the current value as an integer (handle empty case)
+            if(integerValueElement !== null)
+            {
+                const currentValue = (parseInt(integerValueElement.innerText) || 0) + record.count;
+                const newValue = currentValue + 1;
+                integerValueElement.innerText = String(newValue);
+            }
 
             //console.log('End of addOrUpdateWord function');
 
